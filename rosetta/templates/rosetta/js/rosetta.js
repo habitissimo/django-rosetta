@@ -88,29 +88,50 @@ google.setOnLoadCallback(function() {
         });
     });
 
-    $('.translation textarea').blur(function() {
-        if($(this).val()) {
-            $('.alert', $(this).parents('tr')).remove();
-            var RX = /%(?:\([^\s\)]*\))?[sdf]|\{[\w\d_]+?\}/g,
-                origs=$('.original', $(this).parents('tr')).html().match(RX),
-                trads=$(this).val().match(RX),
-                error = $('<span class="alert">Unmatched variables</span>');
-            if (origs && trads) {
-                for (var i = trads.length; i--;){
-                    var key = trads[i];
-                    if (-1 == $.inArray(key, origs)) {
-                        $(this).before(error)
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                if (!(origs === null && trads === null)) {
-                    $(this).before(error);
+
+    var validate_translation = function(RX, el) {
+        var origs=$('.original', $(el).parents('tr')).html().match(RX),
+            trads=$(el).val().match(RX),
+            error = $('<span class="alert">Unmatched variables</span>');
+
+        if (origs && trads) {
+            for (var i = trads.length; i--;){
+                var key = trads[i];
+                if (-1 == $.inArray(key, origs)) {
+                    $(el).before(error);
                     return false;
                 }
             }
             return true;
+        } else {
+            if (!(origs === null && trads === null)) {
+                $(el).before(error);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    $('.translation textarea').blur(function() {
+        if($(this).val()) {
+            $('.alert', $(this).parents('tr')).remove();
+            var var_formats = [
+                /%(?:\([^\s\)]*\))?[sdf]/g,            // Python string formatting
+                /%(?:\d+\$)?(?:\d+\.)?(?:\d+)?[sdf]/g, // PHP sprintf (tested with ['%1$d', '%1$04d', '%04d', '%0.4d', '%s'])
+                /%\w+%/g,                              // Symfony i18n string tokens
+                ],
+                element = this;
+
+            results = $(var_formats).map(function(index,RX) {
+                return validate_translation(RX, element);
+            });
+
+            ret = true;
+            for (var i = results.length; i --;){
+                ret = ret && results[i];
+            }
+
+            return ret;
         }
     });
 
