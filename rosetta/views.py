@@ -302,6 +302,7 @@ def home(request):
             ADMIN_MEDIA_PREFIX=ADMIN_MEDIA_PREFIX,
             ADMIN_IMAGE_DIR=ADMIN_IMAGE_DIR,
             ENABLE_REFLANG=rosetta_settings.ENABLE_REFLANG,
+            ENABLE_COPY_MESSAGE=rosetta_settings.ENABLE_COPY_MESSAGE,
             LANGUAGES=LANGUAGES,
             rosetta_settings=rosetta_settings,
             rosetta_i18n_lang_name=rosetta_i18n_lang_name,

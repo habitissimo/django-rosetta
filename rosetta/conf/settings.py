@@ -8,6 +8,8 @@ MESSAGES_PER_PAGE = getattr(settings, 'ROSETTA_MESSAGES_PER_PAGE', 10)
 # Enable Google translation suggestions
 ENABLE_TRANSLATION_SUGGESTIONS = getattr(settings, 'ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS', False)
 
+ENABLE_COPY_MESSAGE = getattr(settings, 'ROSETTA_ENABLE_COPY_MESSAGE', False)
+
 
 # Can be obtained for free here: https://translate.yandex.com/apikeys
 YANDEX_TRANSLATE_KEY = getattr(settings, 'YANDEX_TRANSLATE_KEY', None)
