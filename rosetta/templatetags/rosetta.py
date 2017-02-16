@@ -11,6 +11,8 @@ rx = re.compile(r'(%(\([^\s\)]*\))?[sd]|\{[\w\d_]+?\})')
 
 
 def format_message(message):
+    return message
+    # ignore python format until PHP format is already supported
     return mark_safe(rx.sub('<code>\\1</code>', escape(message).replace(r'\n', '<br />\n')))
 format_message = register.filter(format_message)
 
