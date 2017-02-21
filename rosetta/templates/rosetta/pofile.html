@@ -130,7 +130,7 @@
                         {% endif %}
                             {% if ENABLE_COPY_MESSAGE %}
                             <td class="copy">
-                                <button type="button" onclick="$('[name=m_{{message.md5hash}}]').val('{{message.msgid|escape}}')">{% trans "Copy" %}</button>
+                                <button type="button" onclick="$('[name=m_{{message.md5hash}}]').val('{{message.msgid|escapejs}}')">{% trans "Copy" %}</button>
                             </td>
                             {% endif %}
                             <td class="c">
@@ -154,6 +154,9 @@
                         <input type="hidden" name="query" value="{{query}}"  />
                     {% endif %}
                     <input type="submit" class="default" name="_next" value="{% trans "Save and translate next block" %}" tabindex="{% increment tab_idx %}"/>
+                    {% if ENABLE_COPY_MESSAGE %}
+                        <input type="button" value="{% filter upper %}{% trans "Copy all" %}{% endfilter %}" onclick="$('.copy button').click()">
+                    {% endif %}
 
 
                     {% if needs_pagination %}
